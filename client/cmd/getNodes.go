@@ -16,9 +16,7 @@ var getNodesCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		networks := []objects.BitcoinNetwork{Network}
-		nodeIDs := &[]string{NodeId}
-
-		nodes, err := Account.GetNodes(Client.Requester, nil, &networks, nodeIDs, nil)
+		nodes, err := Account.GetNodes(Client.Requester, nil, &networks, nil, nil)
 		if err != nil {
 			log.Printf("get nodes failed: %v", err)
 			return
@@ -26,11 +24,10 @@ var getNodesCmd = &cobra.Command{
 
 		for _, node := range nodes.Entities {
 			balances := node.GetBalances()
-
-			log.Printf("NodeID: %v Balance: %v %v \n", node.GetId(), balances.AvailableToSendBalance.OriginalValue, balances.AvailableToSendBalance.OriginalUnit.StringValue())
-			log.Printf("NodeID: %v Balance: %v %v \n", node.GetId(), balances.OwnedBalance.OriginalValue, balances.OwnedBalance.OriginalUnit.StringValue())
-			log.Printf("NodeID: %v Balance: %v %v \n", node.GetId(), balances.AvailableToWithdrawBalance.OriginalValue, balances.AvailableToWithdrawBalance.OriginalUnit.StringValue())
-
+			log.Printf("nodes: %s \n", node.GetId())
+			log.Printf("Balance: %v %v \n", balances.AvailableToSendBalance.OriginalValue, balances.AvailableToSendBalance.OriginalUnit.StringValue())
+			log.Printf("Balance: %v %v \n", balances.OwnedBalance.OriginalValue, balances.OwnedBalance.OriginalUnit.StringValue())
+			log.Printf("Balance: %v %v \n \n", balances.AvailableToWithdrawBalance.OriginalValue, balances.AvailableToWithdrawBalance.OriginalUnit.StringValue())
 		}
 
 	},

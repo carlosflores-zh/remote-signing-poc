@@ -38,6 +38,38 @@ func main() {
 
 	client.LoadNodeSigningKey(nodeId, *services.NewSigningKeyLoaderFromSignerMasterSeed(seed, network))
 
+	entity, err := client.GetEntity("OutgoingPayment:018bf3e3-adfc-1d02-0000-3200942354bb")
+	if err != nil {
+		log.Fatalf("get entity failed: %v", err)
+		return
+	}
+
+	log.Printf("entity: %+v", entity)
+
+	countx := int64(10)
+	transactionsConnection, err := account.GetTransactions(
+		client.Requester,
+		&countx,  // first
+		nil,      // after
+		nil,      // types
+		nil,      // after_date
+		nil,      // before_date
+		&network, // bitcoin_network
+		nil,      // lightning_node_id
+		nil,      // statuses
+		nil,      // exclude_failures
+	)
+	if err != nil {
+		log.Fatalf("get payment requests failed: %v", err)
+		return
+	}
+
+	for _, payment := range transactionsConnection.Entities {
+		log.Printf("payment: %+v", payment)
+	}
+
+	fmt.Scanln()
+
 	// Check your account's conductivity on REGTEST
 	networks := []objects.BitcoinNetwork{objects.BitcoinNetworkRegtest}
 	nodeIDs := &[]string{nodeId}
@@ -132,7 +164,7 @@ func main() {
 	// }
 
 	var count int64 = 50
-	transactionsConnection, err := account.GetTransactions(
+	transactionsConnection, err = account.GetTransactions(
 		client.Requester,
 		&count,   // first
 		nil,      // after

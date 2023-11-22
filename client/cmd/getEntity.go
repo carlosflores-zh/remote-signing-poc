@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/lightsparkdev/go-sdk/objects"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -27,7 +28,8 @@ var getEntityCmd = &cobra.Command{
 			fmt.Printf("get entity failed: %v", err)
 		}
 
-		log.Printf("Entity: %+v\n", *entity)
+		log.Printf("Entity: %s > %s > %s \n", (*entity).GetTypename(), (*entity).GetId(), (*entity).(objects.OutgoingPayment).GetStatus().StringValue())
+		log.Printf("Entity struct: %+v\n", *entity)
 	},
 }
 
