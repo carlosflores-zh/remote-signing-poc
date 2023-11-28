@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/carlosflores-zh/remote-signing-poc/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +12,7 @@ import (
 	"github.com/lightsparkdev/go-sdk/services"
 	"github.com/lightsparkdev/go-sdk/webhooks"
 
+	"github.com/carlosflores-zh/remote-signing-poc/config"
 	"github.com/carlosflores-zh/remote-signing-poc/remotesigning"
 )
 
@@ -27,7 +27,11 @@ func main() {
 	engine := gin.Default()
 
 	engine.GET("/ping", func(c *gin.Context) {
-		c.Status(http.StatusNoContent)
+		c.String(http.StatusOK, "hello\n")
+	})
+
+	engine.GET("/", func(c *gin.Context) {
+		c.Status(http.StatusOK)
 	})
 
 	engine.POST("/ln/webhooks", func(c *gin.Context) {

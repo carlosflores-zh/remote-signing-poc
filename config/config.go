@@ -29,7 +29,7 @@ func NewConfigFromEnv() (*Config, error) {
 	apiClientSecret := os.Getenv("LS_TOKEN")
 	webhookSecret := os.Getenv("LS_WEBHOOK_SECRET")
 	apiEndpointStr := os.Getenv("LS_BASE_URL")
-	
+
 	log.Print("Loaded configuration:")
 	log.Printf("  - API_CLIENT_ID: %s", showEmpty(apiClientId))
 	log.Printf("  - API_CLIENT_SECRET: %s", showEmpty(fmt.Sprint(len(apiClientSecret))))
