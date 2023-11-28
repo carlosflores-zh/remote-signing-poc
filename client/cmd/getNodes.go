@@ -12,7 +12,7 @@ import (
 // getNodesCmd represents the getNodes command
 var getNodesCmd = &cobra.Command{
 	Use:   "getNodes",
-	Short: "A brief description of your command",
+	Short: "Get all nodes for the account",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		networks := []objects.BitcoinNetwork{Network}
@@ -31,18 +31,4 @@ var getNodesCmd = &cobra.Command{
 		}
 
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(getNodesCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// getNodesCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// getNodesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -12,7 +12,7 @@ import (
 // testPaymentCmd represents the testPayment command
 var testPaymentCmd = &cobra.Command{
 	Use:   "testPayment",
-	Short: "A brief description of your command",
+	Short: "Create an invoice and pay it with a simulated payment",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		newInvoice, err := Client.CreateInvoice(NodeId, 10000, nil, nil, nil)
@@ -28,20 +28,7 @@ var testPaymentCmd = &cobra.Command{
 			log.Printf("simulating a test mode payment failed: %v", err)
 			return
 		}
+
 		log.Printf("Invoice paid with a simulated payment %v\n", testPayment.Id)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(testPaymentCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// testPaymentCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// testPaymentCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

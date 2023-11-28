@@ -26,6 +26,7 @@ func main() {
 
 	engine := gin.Default()
 
+	// default ping
 	engine.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "hello\n")
 	})

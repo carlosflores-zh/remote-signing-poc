@@ -11,7 +11,7 @@ import (
 // createWalletCmd represents the createWallet command
 var createWalletCmd = &cobra.Command{
 	Use:   "createWallet",
-	Short: "A brief description of your command",
+	Short: "Create node wallet address (used for funding)",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		address, err := Client.CreateNodeWalletAddress(NodeId)
@@ -21,18 +21,4 @@ var createWalletCmd = &cobra.Command{
 		}
 		log.Printf("Node wallet address created: %v\n", address)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(createWalletCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// createWalletCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// createWalletCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

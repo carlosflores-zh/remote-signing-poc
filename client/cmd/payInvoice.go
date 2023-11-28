@@ -11,7 +11,7 @@ import (
 // payInvoiceCmd represents the payInvoice command
 var payInvoiceCmd = &cobra.Command{
 	Use:   "payInvoice",
-	Short: "A brief description of your command",
+	Short: "Create a test mode invoice and pay it",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("Creating a test mode invoice...")
@@ -31,18 +31,4 @@ var payInvoiceCmd = &cobra.Command{
 
 		log.Printf("Invoice paid with payment id: %v\n", outgoingPayment.Id)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(payInvoiceCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// payInvoiceCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// payInvoiceCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

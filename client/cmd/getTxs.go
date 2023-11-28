@@ -11,10 +11,9 @@ import (
 // getTxsCmd represents the getTxs command
 var getTxsCmd = &cobra.Command{
 	Use:   "getTxs",
-	Short: "A brief description of your command",
+	Short: "Prints the transactions of the account",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		var count int64 = 50
 		transactionsConnection, err := Account.GetTransactions(
 			Client.Requester,
@@ -32,6 +31,7 @@ var getTxsCmd = &cobra.Command{
 			log.Printf("get transactions failed: %v", err)
 			return
 		}
+
 		log.Printf("You have %v transactions in total.\n", transactionsConnection.Count)
 
 		var transactionId string
@@ -47,18 +47,4 @@ var getTxsCmd = &cobra.Command{
 			)
 		}
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(getTxsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// getTxsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// getTxsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

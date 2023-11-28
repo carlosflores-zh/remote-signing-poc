@@ -11,7 +11,7 @@ import (
 // getChannelsCmd represents the getChannels command
 var getChannelsCmd = &cobra.Command{
 	Use:   "getChannels",
-	Short: "A brief description of your command",
+	Short: "Get all channels of the account",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		countc := int64(200)
@@ -27,18 +27,4 @@ var getChannelsCmd = &cobra.Command{
 			log.Printf("ChannelID: %+v Status:%s LocalBalance:%d %s \n", channel.Id, channel.Status.StringValue(), (*(channel.LocalBalance)).OriginalValue, (*(channel.LocalBalance)).OriginalUnit.StringValue())
 		}
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(getChannelsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// getChannelsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// getChannelsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

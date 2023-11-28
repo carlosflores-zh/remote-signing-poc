@@ -11,10 +11,12 @@ import (
 // sendPaymentCmd represents the sendPayment command
 var sendPaymentCmd = &cobra.Command{
 	Use:   "sendPayment",
-	Short: "A brief description of your command",
+	Short: "Send a payment to a node",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		destinationNodePublicKey := ""
+
+		// set destinationNodePublicKey to the public key of the node you want to send a payment to
+		destinationNodePublicKey := "bcrt1qna0pup6atlfxdspxhlxsvh4lt2a30qezcra43c"
 		outgoingPayment, err := Client.SendPayment(NodeId, destinationNodePublicKey, 10000, 1000, 60)
 		if err != nil {
 			log.Printf("send payment failed: %v", err)
@@ -22,18 +24,4 @@ var sendPaymentCmd = &cobra.Command{
 		}
 		log.Printf("Payment sent with payment id: %v\n", outgoingPayment.Id)
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(sendPaymentCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// sendPaymentCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// sendPaymentCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
