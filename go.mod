@@ -1,6 +1,6 @@
 module github.com/carlosflores-zh/remote-signing-poc
 
-go 1.21.4
+go 1.21
 
 require (
 	github.com/btcsuite/btcd v0.23.4

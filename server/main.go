@@ -3,24 +3,26 @@ package main
 
 import (
 	"fmt"
+	"github.com/carlosflores-zh/remote-signing-poc/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/carlosflores-zh/remote-signing-poc/remotesigning"
 	"github.com/lightsparkdev/go-sdk/objects"
 	"github.com/lightsparkdev/go-sdk/services"
 	"github.com/lightsparkdev/go-sdk/webhooks"
+
+	"github.com/carlosflores-zh/remote-signing-poc/remotesigning"
 )
 
 func main() {
-	config, err := NewConfigFromEnv()
+	conf, err := config.NewConfigFromEnv()
 	if err != nil {
-		log.Fatalf("Invalid config: %s", err)
+		log.Fatalf("Invalid conf: %s", err)
 	}
 
-	lsClient := services.NewLightsparkClient(config.ApiClientId, config.ApiClientSecret, config.ApiEndpoint)
+	lsClient := services.NewLightsparkClient(conf.ApiClientId, conf.ApiClientSecret, conf.ApiEndpoint)
 
 	engine := gin.Default()
 
@@ -43,7 +45,7 @@ func main() {
 			return
 		}
 
-		event, err := webhooks.VerifyAndParse(data, signature, config.WebhookSecret)
+		event, err := webhooks.VerifyAndParse(data, signature, conf.WebhookSecret)
 		if err != nil {
 			log.WithFields(log.Fields{"data": string(data)}).Printf("ERROR: Couldn't parse webhook data: %s", err)
 			c.AbortWithStatus(http.StatusBadRequest)
@@ -56,7 +58,7 @@ func main() {
 		switch event.EventType {
 		case objects.WebhookEventTypeRemoteSigning:
 			resp, err := remotesigning.HandleRemoteSigningWebhook(
-				lsClient, remotesigning.PositiveValidator{}, *event, config.MasterSeed)
+				lsClient, remotesigning.PositiveValidator{}, *event, conf.MasterSeed)
 			if err != nil {
 				logf.Printf("ERROR: Unable to handle remote signing webhook: %s", err)
 				c.AbortWithStatus(http.StatusInternalServerError)

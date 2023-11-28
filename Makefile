@@ -1,5 +1,5 @@
 run-webhook:
-	go run remote-signing-server/*.go
+	go run server/*.go
 
 build-client:
-	go build -o cli client/cli/client.go
+	go build -o cli client/cli/main.go
