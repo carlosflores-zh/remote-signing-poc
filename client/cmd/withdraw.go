@@ -15,15 +15,28 @@ var withdrawCmd = &cobra.Command{
 	Short: "A brief description of your command",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO receive bitcoin address from command line
-		bitcoinAddress := "bcrt1qna0pup6atlfxdspxhlxsvh4lt2a30qezcra43c"
-		withdrawalRequest, err := Client.RequestWithdrawal(NodeId, 90400, bitcoinAddress, objects.WithdrawalModeWalletThenChannels)
+		networks := []objects.BitcoinNetwork{Network}
+		nodes, err := Account.GetNodes(Client.Requester, nil, &networks, nil, nil)
 		if err != nil {
-			log.Printf("withdraw failed: %v", err)
+			log.Printf("get nodes failed: %v", err)
 			return
 		}
 
-		log.Printf("Withdrawal initiated with request id: %v\n", withdrawalRequest.Id)
+		for _, node := range nodes.Entities {
+			if node.GetId() == NodeId {
+				// TODO receive bitcoin address from command line
+				bitcoinAddress := "bcrt1qna0pup6atlfxdspxhlxsvh4lt2a30qezcra43c"
+				// RequestWithdrawal receives sats
+				log.Printf("balance to withdraw: %v", node.GetBalances().AvailableToSendBalance.OriginalValue/1000)
+				withdrawalRequest, err := Client.RequestWithdrawal(NodeId, node.GetBalances().AvailableToSendBalance.OriginalValue/1000, bitcoinAddress, objects.WithdrawalModeWalletThenChannels)
+				if err != nil {
+					log.Printf("withdraw failed: %v", err)
+					return
+				}
+
+				log.Printf("Withdrawal initiated with request id: %v\n", withdrawalRequest.Id)
+			}
+		}
 
 	},
 }

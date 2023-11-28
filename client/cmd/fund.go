@@ -14,7 +14,7 @@ var fundCmd = &cobra.Command{
 	Short: "A brief description of your command",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		depositAmount, err := Client.FundNode(NodeId, 10000000)
+		depositAmount, err := Client.FundNode(NodeId, 10000000) // 10,000,000 sats
 		if err != nil {
 			log.Printf("fund node failed: %v", err)
 			return

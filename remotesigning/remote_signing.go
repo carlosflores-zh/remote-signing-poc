@@ -5,10 +5,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	log "github.com/sirupsen/logrus"
-
 	"github.com/lightsparkdev/go-sdk/crypto"
 	lightspark_crypto "github.com/lightsparkdev/lightspark-crypto-uniffi/lightspark-crypto-go"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/lightsparkdev/go-sdk/objects"
 	"github.com/lightsparkdev/go-sdk/scripts"
@@ -63,12 +62,6 @@ func HandleRemoteSigningWebhook(
 
 	response, err := HandleSigningRequest(request, seedBytes)
 	if err != nil {
-		// string, errx := DeclineToSignMessages(client, event)
-		// if errx != nil {
-		// 	log.Printf("Error, declining to sign messages: %s", errx)
-		// }
-		//
-		// log.Printf("decline signing request: %s", string)
 		logf.Printf("Error handling signing request: %s", err)
 		return "", err
 	}
@@ -121,6 +114,8 @@ func HandleSigningRequest(request SigningRequest, seedBytes []byte) (SigningResp
 
 func HandleSigningResponse(client *services.LightsparkClient, response SigningResponse) (string, error) {
 	graphql := response.GraphqlResponse()
+
+	log.Printf("Executing graphql signing_response with data: %+v", graphql.Variables)
 
 	result, err := client.Requester.ExecuteGraphql(graphql.Query, graphql.Variables, nil)
 	if err != nil {
@@ -337,8 +332,6 @@ func HandleDeriveKeyAndSignRequest(request *DeriveKeyAndSignRequest, seedBytes [
 
 	var signatures []SignatureResponse
 	for _, signingJob := range request.SigningJobs {
-		log.Printf("Signing job: %s", signingJob.Id)
-
 		signature, err := signSigningJob(signingJob, seedBytes, bitcoinNetwork)
 		if err != nil {
 			log.Printf("Error signing job %s: %s", signingJob.Id, err)
@@ -383,8 +376,6 @@ func signSigningJob(signingJob SigningJob, seedBytes []byte, network lightspark_
 	if err != nil {
 		return objects.IdAndSignature{}, err
 	}
-
-	log.Printf("messageBytes: %s", hex.EncodeToString(messageBytes))
 
 	signatureBytes, err := lightspark_crypto.DeriveKeyAndSign(
 		seedBytes,
