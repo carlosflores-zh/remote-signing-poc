@@ -44,7 +44,6 @@ func HandleRemoteSigningWebhook(
 
 	var subtype objects.RemoteSigningSubEventType
 	subEventTypeStr := (*event.Data)["sub_event_type"].(string)
-	logf.Printf("Received remote signing event with sub_event_type %s", subEventTypeStr)
 
 	err := subtype.UnmarshalJSON([]byte(`"` + subEventTypeStr + `"`))
 	if err != nil {
@@ -52,6 +51,7 @@ func HandleRemoteSigningWebhook(
 	}
 
 	if !validator.ShouldSign(event) {
+		logf.Printf("Declining to sign messages: %+v", event)
 		return DeclineToSignMessages(client, event)
 	}
 
@@ -164,6 +164,8 @@ func DeclineToSignMessages(client *services.LightsparkClient, event webhooks.Web
 		"payload_ids": payloadIds,
 	}
 
+	log.Printf("DECLINE_TO_SIGN_MESSAGES_MUTATION variables: %+v", variables)
+
 	response, err := client.Requester.ExecuteGraphql(scripts.DECLINE_TO_SIGN_MESSAGES_MUTATION, variables, nil)
 	if err != nil {
 		return "", err
@@ -175,12 +177,12 @@ func DeclineToSignMessages(client *services.LightsparkClient, event webhooks.Web
 	if err != nil {
 		return "", err
 	}
-
-	// This is just to validate the response.
 	err = json.Unmarshal(outputJson, &responseObj)
 	if err != nil {
 		return "", err
 	}
+
+	log.Printf("DECLINE_TO_SIGN_MESSAGES_MUTATION response: %+v", responseObj)
 
 	return "rejected signing", nil
 }

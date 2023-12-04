@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -16,12 +13,31 @@ var xpubCmd = &cobra.Command{
 	Short: "Derive a public key used for node",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		publicKey, err := lightspark_crypto.DerivePublicKey(Seed, 3, "m")
+		// change to the network you want to use
+		publicKeyMainnet, err := lightspark_crypto.DerivePublicKey(Seed, 1, "m")
 		if err != nil {
 			log.Printf("get public key failed: %v", err)
 			return
 		}
 
-		log.Printf("xpub: %s", publicKey)
+		publicKeyTestnet, err := lightspark_crypto.DerivePublicKey(Seed, 2, "m")
+		if err != nil {
+			log.Printf("get public key failed: %v", err)
+			return
+		}
+
+		publicKeyRegtest, err := lightspark_crypto.DerivePublicKey(Seed, 3, "m")
+		if err != nil {
+			log.Printf("get public key failed: %v", err)
+			return
+		}
+
+		log.Printf("xpub: %s", publicKeyMainnet)
+		log.Printf("tpub: %s", publicKeyTestnet)
+		log.Printf("tpub regtest: %s", publicKeyRegtest)
 	},
+}
+
+func init() {
+	rootCmd.AddCommand(xpubCmd)
 }

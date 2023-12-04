@@ -48,3 +48,7 @@ var getTxsCmd = &cobra.Command{
 		}
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(getTxsCmd)
+}

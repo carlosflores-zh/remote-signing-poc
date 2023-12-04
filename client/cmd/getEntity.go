@@ -32,3 +32,7 @@ var getEntityCmd = &cobra.Command{
 		log.Printf("Entity struct: %+v\n", *entity)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(getEntityCmd)
+}

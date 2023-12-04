@@ -41,3 +41,7 @@ var withdrawCmd = &cobra.Command{
 
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(withdrawCmd)
+}

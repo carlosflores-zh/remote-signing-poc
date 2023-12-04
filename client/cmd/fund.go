@@ -23,3 +23,7 @@ var fundCmd = &cobra.Command{
 		log.Printf("Amount funded: %v %v \n", depositAmount.OriginalValue, depositAmount.OriginalUnit.StringValue())
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(fundCmd)
+}

@@ -22,3 +22,7 @@ var createWalletCmd = &cobra.Command{
 		log.Printf("Node wallet address created: %v\n", address)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(createWalletCmd)
+}

@@ -17,7 +17,14 @@ type Validator interface {
 
 type PositiveValidator struct{}
 
-func (v PositiveValidator) ShouldSign(webhooks.WebhookEvent) bool {
+func (v PositiveValidator) ShouldSign(event webhooks.WebhookEvent) bool {
+	subEventTypeStr := (*event.Data)["sub_event_type"].(string)
+
+	// validate sub event type to reject if needed
+	if subEventTypeStr == "DERIVE_KEY_AND_SIGN" {
+		return true
+	}
+
 	return true
 }
 

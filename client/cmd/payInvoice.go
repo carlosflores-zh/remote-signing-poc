@@ -32,3 +32,7 @@ var payInvoiceCmd = &cobra.Command{
 		log.Printf("Invoice paid with payment id: %v\n", outgoingPayment.Id)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(payInvoiceCmd)
+}

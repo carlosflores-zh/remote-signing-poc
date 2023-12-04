@@ -19,3 +19,7 @@ var getAccountCmd = &cobra.Command{
 
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(getAccountCmd)
+}

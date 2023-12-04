@@ -25,3 +25,7 @@ var sendPaymentCmd = &cobra.Command{
 		log.Printf("Payment sent with payment id: %v\n", outgoingPayment.Id)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(sendPaymentCmd)
+}

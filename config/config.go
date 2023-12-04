@@ -3,6 +3,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/lightsparkdev/go-sdk/objects"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
@@ -25,6 +26,9 @@ func NewConfigFromEnv() (*Config, error) {
 		log.Fatalf("Invalid mnemonic: %s", err)
 	}
 
+	// hardcode network to regtest
+	network := objects.BitcoinNetworkMainnet
+
 	apiClientId := os.Getenv("LS_CLIENT_ID")
 	apiClientSecret := os.Getenv("LS_TOKEN")
 	webhookSecret := os.Getenv("LS_WEBHOOK_SECRET")
@@ -36,6 +40,7 @@ func NewConfigFromEnv() (*Config, error) {
 	log.Printf("  - WEBHOOK_SECRET: %s", showEmpty(fmt.Sprint(len(webhookSecret))))
 	log.Printf("  - MASTER_SEED: %s", showEmpty(fmt.Sprint(len(masterSeed))))
 	log.Printf("  - API_ENDPOINT: %s", showEmpty(apiEndpointStr))
+	log.Printf("  - NETWORK: %s", network.StringValue())
 
 	return &Config{
 		ApiEndpoint:     &apiEndpointStr,

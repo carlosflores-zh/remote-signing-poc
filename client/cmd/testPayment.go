@@ -32,3 +32,7 @@ var testPaymentCmd = &cobra.Command{
 		log.Printf("Invoice paid with a simulated payment %v\n", testPayment.Id)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(testPaymentCmd)
+}

@@ -28,3 +28,7 @@ var getChannelsCmd = &cobra.Command{
 		}
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(getChannelsCmd)
+}

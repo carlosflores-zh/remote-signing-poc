@@ -33,8 +33,6 @@ func Init() {
 		return
 	}
 
-	// force to regtest
-	Network = objects.BitcoinNetworkRegtest
 	Client = services.NewLightsparkClient(apiClientID, apiToken, &baseUrl)
 
 	Account, err = Client.GetCurrentAccount()
@@ -45,4 +43,5 @@ func Init() {
 
 	Client.LoadNodeSigningKey(NodeId, *services.NewSigningKeyLoaderFromSignerMasterSeed(Seed, Network))
 
+	log.Printf("Client: %+v\n", Client)
 }
