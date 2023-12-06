@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -19,7 +16,7 @@ var createWalletCmd = &cobra.Command{
 			log.Printf("get node wallet failed: %v", err)
 			return
 		}
-		log.Printf("Node wallet address created: %v\n", address)
+		log.Printf("Node %s wallet address created: %v\n", NodeId, address)
 	},
 }
 

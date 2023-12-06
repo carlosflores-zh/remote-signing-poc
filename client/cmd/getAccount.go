@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -16,6 +13,7 @@ var getAccountCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		log.Printf("Your account name is: %v.\n", *Account.Name)
+		log.Printf("Your nodeID is: %v.\n", NodeId)
 
 	},
 }

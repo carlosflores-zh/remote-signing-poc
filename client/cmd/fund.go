@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -9,6 +6,7 @@ import (
 )
 
 // fundCmd represents the fundNode command
+// ONLY FOR TESTNET
 var fundCmd = &cobra.Command{
 	Use:   "fund",
 	Short: "Execute fundNode operation, to fund a node with 10,000,000 sats in testnet",

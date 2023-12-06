@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -14,16 +11,12 @@ var payInvoiceCmd = &cobra.Command{
 	Short: "Create a test mode invoice and pay it",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("Creating a test mode invoice...")
-		testInvoice, err := Client.CreateTestModeInvoice(NodeId, 250000, nil, nil)
-		if err != nil {
-			log.Printf("create test invoice failed: %v", err)
+		if len(args) < 1 {
+			log.Printf("Please provide an invoice")
 			return
 		}
 
-		log.Printf("Invoice created: %v\n", *testInvoice)
-
-		outgoingPayment, err := Client.PayInvoice(NodeId, *testInvoice, 1000, 60, nil)
+		outgoingPayment, err := Client.PayInvoice(NodeId, args[0], 1000, 60, nil)
 		if err != nil {
 			log.Printf("pay invoice failed: %v", err)
 			return

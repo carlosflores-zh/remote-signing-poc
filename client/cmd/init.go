@@ -25,6 +25,8 @@ func Init() {
 	apiToken := os.Getenv("LS_TOKEN")
 	baseUrl := os.Getenv("LS_BASE_URL")
 	NodeId = os.Getenv("LS_NODE_ID")
+	// hardcode network to mainnet for now
+	Network = objects.BitcoinNetworkMainnet
 
 	mnemonicSlice := strings.Split(os.Getenv("WORDS"), " ")
 	Seed, err = lightspark_crypto.MnemonicToSeed(mnemonicSlice)
@@ -42,6 +44,4 @@ func Init() {
 	}
 
 	Client.LoadNodeSigningKey(NodeId, *services.NewSigningKeyLoaderFromSignerMasterSeed(Seed, Network))
-
-	log.Printf("Client: %+v\n", Client)
 }
