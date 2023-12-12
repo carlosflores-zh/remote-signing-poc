@@ -25,8 +25,14 @@ var getEntityCmd = &cobra.Command{
 			fmt.Printf("get entity failed: %v", err)
 		}
 
-		log.Printf("Entity: %s > %s > %s \n", (*entity).GetTypename(), (*entity).GetId(), (*entity).(objects.OutgoingPayment).GetStatus().StringValue())
-		log.Printf("Entity struct: %+v\n", *entity)
+		if (*entity).GetTypename() == "OutgoingPayment" {
+			outgoingPayment := (*entity).(objects.OutgoingPayment)
+			log.Printf("%s > %s > %s \n", outgoingPayment.GetTypename(), outgoingPayment.GetId(), outgoingPayment.GetStatus().StringValue())
+			log.Printf("OutgoingPayment struct: %+v\n", outgoingPayment)
+			if outgoingPayment.FailureMessage != nil {
+				log.Printf("FailureMessage: %+v\n", outgoingPayment.FailureMessage)
+			}
+		}
 	},
 }
 

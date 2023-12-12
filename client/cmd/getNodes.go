@@ -22,9 +22,13 @@ var getNodesCmd = &cobra.Command{
 		for _, node := range nodes.Entities {
 			balances := node.GetBalances()
 			log.Printf("nodes: %s \n", node.GetId())
-			log.Printf("Balance: %v %v \n", balances.AvailableToSendBalance.OriginalValue, balances.AvailableToSendBalance.OriginalUnit.StringValue())
-			log.Printf("Balance: %v %v \n", balances.OwnedBalance.OriginalValue, balances.OwnedBalance.OriginalUnit.StringValue())
-			log.Printf("Balance: %v %v \n \n", balances.AvailableToWithdrawBalance.OriginalValue, balances.AvailableToWithdrawBalance.OriginalUnit.StringValue())
+			log.Println("network:", node.GetBitcoinNetwork())
+			log.Println("pubkey:", *(node.GetPublicKey()))
+			log.Println("status:", node.GetStatus().StringValue())
+			log.Println("createdAt:", node.GetCreatedAt())
+			log.Printf("AvailableToSendBalance: %v %v \n", balances.AvailableToSendBalance.OriginalValue, balances.AvailableToSendBalance.OriginalUnit.StringValue())
+			log.Printf("OwnedBalance: %v %v \n", balances.OwnedBalance.OriginalValue, balances.OwnedBalance.OriginalUnit.StringValue())
+			log.Printf("AvailableToWithdrawBalance: %v %v \n \n", balances.AvailableToWithdrawBalance.OriginalValue, balances.AvailableToWithdrawBalance.OriginalUnit.StringValue())
 		}
 
 	},

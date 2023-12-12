@@ -21,7 +21,15 @@ var getChannelsCmd = &cobra.Command{
 		log.Printf("You have %v channels in total.\n", len(channels.Entities))
 
 		for _, channel := range channels.Entities {
-			log.Printf("ChannelID: %+v Status:%s LocalBalance:%d %s \n", channel.Id, channel.Status.StringValue(), (*(channel.LocalBalance)).OriginalValue, (*(channel.LocalBalance)).OriginalUnit.StringValue())
+			log.Printf("ChannelID: %+v Status:%s LocalBalance:%d %s RemoteBalance: %d %s \n", channel.Id, channel.Status.StringValue(),
+				(*(channel.LocalBalance)).OriginalValue, (*(channel.LocalBalance)).OriginalUnit.StringValue(),
+				(*(channel.RemoteBalance)).OriginalValue, (*(channel.RemoteBalance)).OriginalUnit.StringValue())
+			if channel.LocalUnsettledBalance != nil {
+				log.Printf("Local Unseetled %d %s", (*(channel.LocalUnsettledBalance)).OriginalValue, (*(channel.LocalUnsettledBalance)).OriginalUnit.StringValue())
+			}
+			if channel.RemoteUnsettledBalance != nil {
+				log.Printf("Remote Unseetled %d %s", (*(channel.RemoteUnsettledBalance)).OriginalValue, (*(channel.RemoteUnsettledBalance)).OriginalUnit.StringValue())
+			}
 		}
 	},
 }
