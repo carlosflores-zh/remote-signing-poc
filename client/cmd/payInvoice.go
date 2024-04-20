@@ -16,17 +16,20 @@ var payInvoiceCmd = &cobra.Command{
 			return
 		}
 
-		defaultAmount := int64(0)
-
 		invoice := args[0]
 
-		lnFees, err := Client.GetLightningFeeEstimateForInvoice(NodeId, invoice, &defaultAmount)
-		if err != nil {
-			log.Printf("get node wallet failed: %v", err)
-			return
+		if invoice == "test" {
+			invoiceTest, err := Client.CreateTestModeInvoice(NodeId, int64(10000000), nil, nil)
+			if err != nil {
+				log.Printf("create lightning invoice failed: %v", err)
+				return
+			}
+
+			log.Printf("Invoice created: %v\n", invoiceTest)
+			invoice = *invoiceTest
 		}
 
-		outgoingPayment, err := Client.PayInvoice(NodeId, args[0], 1000, lnFees.FeeEstimate.OriginalValue, nil)
+		outgoingPayment, err := Client.PayInvoice(NodeId, invoice, 1000, 10000, nil)
 		if err != nil {
 			log.Printf("pay invoice failed: %v", err)
 			return

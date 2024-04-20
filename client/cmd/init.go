@@ -11,11 +11,12 @@ import (
 )
 
 var (
-	NodeId  string
-	Network objects.BitcoinNetwork
-	Client  *services.LightsparkClient
-	Seed    []byte
-	Account *objects.Account
+	NodeId    string
+	Network   objects.BitcoinNetwork
+	Client    *services.LightsparkClient
+	Seed      []byte
+	SeedRevoc []byte
+	Account   *objects.Account
 )
 
 func Init() {
@@ -26,7 +27,7 @@ func Init() {
 	baseUrl := os.Getenv("LS_BASE_URL")
 	NodeId = os.Getenv("LS_NODE_ID")
 	// hardcode network to mainnet for now
-	Network = objects.BitcoinNetworkMainnet
+	Network = objects.BitcoinNetworkRegtest
 
 	mnemonicSlice := strings.Split(os.Getenv("WORDS"), " ")
 	Seed, err = lightspark_crypto.MnemonicToSeed(mnemonicSlice)
@@ -35,13 +36,19 @@ func Init() {
 		return
 	}
 
-	Client = services.NewLightsparkClient(apiClientID, apiToken, &baseUrl)
-
-	Account, err = Client.GetCurrentAccount()
+	mnemonicSliceRevoc := strings.Split(os.Getenv("WORDS_REVOC"), " ")
+	SeedRevoc, err = lightspark_crypto.MnemonicToSeed(mnemonicSliceRevoc)
 	if err != nil {
-		log.Fatalf("get current account failed: %v", err)
+		log.Fatalf("mnemonic to seed failed: %v", err)
 		return
 	}
 
+	Client = services.NewLightsparkClient(apiClientID, apiToken, &baseUrl)
 	Client.LoadNodeSigningKey(NodeId, *services.NewSigningKeyLoaderFromSignerMasterSeed(Seed, Network))
+
+	Account, err = Client.GetCurrentAccount()
+	if err != nil {
+		log.Fatalf("get account failed: %v", err)
+		return
+	}
 }

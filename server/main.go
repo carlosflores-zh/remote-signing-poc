@@ -13,7 +13,7 @@ import (
 	"github.com/lightsparkdev/go-sdk/webhooks"
 
 	"github.com/carlosflores-zh/remote-signing-poc/config"
-	"github.com/carlosflores-zh/remote-signing-poc/remotesigning"
+	"github.com/lightsparkdev/go-sdk/remotesigning"
 )
 
 func main() {
@@ -39,8 +39,6 @@ func main() {
 		signature := c.Request.Header.Get(webhooks.SIGNATURE_HEADER)
 		if signature == "" {
 			log.Print("ERROR: Signature was not present")
-			c.AbortWithStatus(http.StatusBadRequest)
-			return
 		}
 
 		data, err := c.GetRawData()
@@ -76,7 +74,6 @@ func main() {
 
 			c.Status(http.StatusNoContent)
 		case objects.WebhookEventTypeWithdrawalFinished:
-			// Fetch a transaction by id
 			fetchEntity(lsClient, event.EntityId)
 			c.Status(http.StatusNoContent)
 
@@ -89,7 +86,7 @@ func main() {
 		}
 	})
 
-	engine.Run()
+	engine.Run(":8000")
 }
 
 func fetchEntity(lsClient *services.LightsparkClient, entityID string) {
